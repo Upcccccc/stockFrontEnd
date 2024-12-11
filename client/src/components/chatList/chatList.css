@@ -22,6 +22,13 @@
     display: flex;
     flex-direction: column;
     overflow: scroll;
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+  }
+
+  /* Chrome, Safari and Opera */
+  .list::-webkit-scrollbar {
+    display: none;
   }
 
   a {

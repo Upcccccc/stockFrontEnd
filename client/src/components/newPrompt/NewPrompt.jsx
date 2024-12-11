@@ -128,60 +128,81 @@
 //
 // export default NewPrompt;
 
+// client/src/components/newPrompt/NewPrompt.jsx
 import { useState, useRef } from "react";
 import "./newPrompt.css";
-import { queryRAG } from "../../lib/api";
+import { updateChat } from "../../lib/api";
+import ThinkingLoader from "../thinkingLoader/ThinkingLoader";
 import Markdown from "react-markdown";
-import Upload from "../upload/Upload.jsx";
 
-const NewPrompt = () => {
-  const [question, setQuestion] = useState("");
-  const [answer, setAnswer] = useState("");
-  const endRef = useRef(null);
+// const NewPrompt = ({ chatId, onNewMessage }) => {
+//   const formRef = useRef(null);
+//   const [loading, setLoading] = useState(false);
+//
+//   const handleSubmit = async (e) => {
+//     e.preventDefault();
+//     const text = e.target.text.value;
+//     if (!text) return;
+//     setLoading(true);
+//     try {
+//       await updateChat(chatId, text);
+//       onNewMessage(); // 刷新对话数据
+//       formRef.current.reset();
+//     } catch (err) {
+//       console.error(err);
+//     }
+//     setLoading(false);
+//   };
+//
+//   return (
+//       <>
+//         {loading && <div className="loading">Thinking...</div>}
+//         <form className="newForm" onSubmit={handleSubmit} ref={formRef}>
+//           <input type="text" name="text" placeholder="Ask about stocks..." />
+//           <button>
+//             <img src="/arrow.png" alt="" />
+//           </button>
+//         </form>
+//       </>
+//   );
+// };
+const NewPrompt = ({ chatId, onNewMessage }) => {
   const formRef = useRef(null);
-  const [img, setImg] = useState({
-    isLoading: false,
-    error: "",
-    dbData: {},
-    aiData: {},
-  });
+  const [loading, setLoading] = useState(false);
+  const [currentQuestion, setCurrentQuestion] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     const text = e.target.text.value;
     if (!text) return;
 
-    setQuestion(text);
+    setCurrentQuestion(text);
+    setLoading(true);
+    formRef.current.reset();
 
     try {
-      const response = await queryRAG(text);
-      if (response.data) {
-        setAnswer(response.data.answer);
-      }
+      await updateChat(chatId, text);
+      await onNewMessage();
+      setCurrentQuestion("");
     } catch (err) {
       console.error(err);
-      setAnswer("Sorry, something went wrong.");
     }
-
-    formRef.current.reset();
+    setLoading(false);
   };
 
   return (
       <>
-        {img.isLoading && <div className="">Loading...</div>}
-        {img.dbData?.filePath && (
-            <img src={img.dbData.filePath} alt="" width="380" />
-        )}
-        {question && <div className="message user">{question}</div>}
-        {answer && (
-            <div className="message">
-              <Markdown>{answer}</Markdown>
+        {currentQuestion && (
+            <div className="message user">
+              <Markdown>{currentQuestion}</Markdown>
             </div>
         )}
-        <div className="endChat" ref={endRef}></div>
+        {loading && (
+            <div className="message">
+              <ThinkingLoader />
+            </div>
+        )}
         <form className="newForm" onSubmit={handleSubmit} ref={formRef}>
-          <Upload setImg={setImg} />
-          <input id="file" type="file" multiple={false} hidden />
           <input type="text" name="text" placeholder="Ask about stocks..." />
           <button>
             <img src="/arrow.png" alt="" />

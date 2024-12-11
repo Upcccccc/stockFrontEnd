@@ -11,6 +11,8 @@
     width: 100%;
     display: flex;
     justify-content: center;
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
 
     .chat{
       width: 50%;
@@ -33,5 +35,9 @@
         }
       }
     }
+  }
+
+  .wrapper::-webkit-scrollbar {
+    display: none;
   }
 }

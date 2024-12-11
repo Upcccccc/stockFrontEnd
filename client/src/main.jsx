@@ -9,6 +9,7 @@ import RootLayout from "./layouts/rootLayout/RootLayout";
 import DashboardLayout from "./layouts/dashboardLayout/DashboardLayout";
 import SignInPage from "./routes/signInPage/signInPage";
 import SignUpPage from "./routes/signUpPage/signUpPage";
+import StockAnalysisPage from "./routes/stockAnalysisPage/StockAnalysisPage.jsx";
 
 const router = createBrowserRouter([
   {
@@ -37,6 +38,10 @@ const router = createBrowserRouter([
             path: "/dashboard/chats/:id",
             element: <ChatPage />,
           },
+          {
+            path: "/dashboard/stock-analysis",
+            element: <StockAnalysisPage />,
+          }
         ],
       },
     ],
