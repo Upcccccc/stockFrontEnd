@@ -16,6 +16,7 @@ const ChatList = () => {
             <span className="title">DASHBOARD</span>
             <Link to="/dashboard">Create a new Chat</Link>
             <Link to="/dashboard/stock-analysis">Stock Analysis</Link>
+            <Link to="/dashboard/news">Market News</Link>
             <Link to="/">Explore Lama AI</Link>
             <Link to="/">Contact</Link>
             <hr />

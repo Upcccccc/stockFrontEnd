@@ -72,3 +72,14 @@ export const stockAnalytics = {
         return res.json();
     }
 };
+
+export const newsAPI = {
+    getNewsEvents: async (companyName) => {
+        const params = new URLSearchParams();
+        if (companyName) params.append('company_name', companyName);
+
+        const res = await fetch(`${import.meta.env.VITE_API_URL}/api/news-events?${params.toString()}`);
+        if (!res.ok) throw new Error('Failed to fetch news events');
+        return res.json();
+    }
+};

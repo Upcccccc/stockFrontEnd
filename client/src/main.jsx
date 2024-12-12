@@ -10,6 +10,7 @@ import DashboardLayout from "./layouts/dashboardLayout/DashboardLayout";
 import SignInPage from "./routes/signInPage/signInPage";
 import SignUpPage from "./routes/signUpPage/signUpPage";
 import StockAnalysisPage from "./routes/stockAnalysisPage/StockAnalysisPage.jsx";
+import NewsPage from "./routes/newsPage/NewsPage.jsx";
 
 const router = createBrowserRouter([
   {
@@ -41,6 +42,10 @@ const router = createBrowserRouter([
           {
             path: "/dashboard/stock-analysis",
             element: <StockAnalysisPage />,
+          },
+          {
+            path: "/dashboard/news",
+            element: <NewsPage />,
           }
         ],
       },
