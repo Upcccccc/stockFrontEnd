@@ -2,7 +2,8 @@
 import { useState } from 'react';
 import { stockAnalytics } from '../../lib/api';
 
-const StockSearchForm = ({ onAnalysisRequest }) => {
+
+const StockSearchForm = ({ onAnalysisRequest, onDataReceived }) => {
     const [formData, setFormData] = useState({
         companyName: '',
         startDate: '',
@@ -15,55 +16,27 @@ const StockSearchForm = ({ onAnalysisRequest }) => {
         e.preventDefault();
         setIsSubmitting(true);
 
+        // Notify parent component about loading states
+        onAnalysisRequest(['stockData', 'trendsData', 'similarCompanies', 'industryData']);
+
         try {
-            onAnalysisRequest({ loading: true });
+            // Make requests individually and update as they complete
+            stockAnalytics.getStockData(formData.companyName, formData.startDate, formData.endDate)
+                .then(response => onDataReceived('stockData', response.data))
+                .catch(error => onDataReceived('stockData', null, error.message));
 
-            // parallel requests
-            const [stockResponse, trendsResponse, similarCompaniesResponse, industryResponse] = await Promise.all([
-                stockAnalytics.getStockData(
-                    formData.companyName,
-                    formData.startDate,
-                    formData.endDate
-                ),
-                stockAnalytics.getMonotonicTrends(
-                    formData.companyName,
-                    formData.startDate,
-                    formData.endDate
-                ),
-                stockAnalytics.getSimilarCompanies(
-                    formData.companyName,
-                    formData.startDate,
-                    formData.endDate
-                ),
-                stockAnalytics.getIndustryAnalysis(
-                    formData.companyName,
-                    formData.startDate,
-                    formData.endDate
-                )
-            ]);
+            stockAnalytics.getMonotonicTrends(formData.companyName, formData.startDate, formData.endDate)
+                .then(response => onDataReceived('trendsData', response.data))
+                .catch(error => onDataReceived('trendsData', null, error.message));
 
-            console.log('Stock data response:', stockResponse);
-            console.log('Trends data response:', trendsResponse);
-            console.log('Similar companies response:', similarCompaniesResponse);
-            console.log('Industry analysis response:', industryResponse);
+            stockAnalytics.getSimilarCompanies(formData.companyName, formData.startDate, formData.endDate)
+                .then(response => onDataReceived('similarCompanies', response.data))
+                .catch(error => onDataReceived('similarCompanies', null, error.message));
 
-            onAnalysisRequest({
-                loading: false,
-                stockData: stockResponse.data,
-                trendsData: trendsResponse.data,
-                similarCompanies: similarCompaniesResponse.data,
-                industryData: industryResponse,  // Note: no .data here since the API response structure is different
-                error: null
-            });
-        } catch (error) {
-            onAnalysisRequest({
-                loading: false,
-                stockData: null,
-                trendsData: null,
-                similarCompanies: null,
-                industryData: null,
-                error: error.message
-            });
+            stockAnalytics.getIndustryAnalysis(formData.companyName, formData.startDate, formData.endDate)
+                .then(response => onDataReceived('industryData', response))
+                .catch(error => onDataReceived('industryData', null, error.message));
+
         } finally {
             setIsSubmitting(false);
         }
