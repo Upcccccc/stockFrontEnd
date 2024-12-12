@@ -3,6 +3,7 @@ import { useState } from 'react';
 import StockSearchForm from './StockSearchForm';
 import EnhancedStockChart from './EnhancedStockChart';
 import StockAnalyticsInfo from './StockAnalyticsInfo';
+import SimilarCompanies from './SimilarCompanies';
 import './stockAnalysis.css';
 
 const StockAnalysisPanel = () => {
@@ -10,6 +11,7 @@ const StockAnalysisPanel = () => {
     const [analysisData, setAnalysisData] = useState({
         stockData: null,        // stock data
         trendsData: null,       // trends data
+        similarCompanies: null, // similar companies data
         loading: false,         // loading state
         error: null            //   error state
     });
@@ -53,6 +55,9 @@ const StockAnalysisPanel = () => {
                         <StockAnalyticsInfo
                             stockData={analysisData.stockData}
                             trendsData={analysisData.trendsData}
+                        />
+                        <SimilarCompanies
+                            similarCompanies={analysisData.similarCompanies}
                         />
                     </div>
                 )}

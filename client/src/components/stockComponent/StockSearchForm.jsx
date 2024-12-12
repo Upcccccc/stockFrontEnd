@@ -19,7 +19,7 @@ const StockSearchForm = ({ onAnalysisRequest }) => {
             onAnalysisRequest({ loading: true });
 
             // parallel requests
-            const [stockResponse, trendsResponse] = await Promise.all([
+            const [stockResponse, trendsResponse, similarCompaniesResponse] = await Promise.all([
                 stockAnalytics.getStockData(
                     formData.companyName,
                     formData.startDate,
@@ -29,16 +29,23 @@ const StockSearchForm = ({ onAnalysisRequest }) => {
                     formData.companyName,
                     formData.startDate,
                     formData.endDate
+                ),
+                stockAnalytics.getSimilarCompanies(
+                    formData.companyName,
+                    formData.startDate,
+                    formData.endDate
                 )
             ]);
 
-            console.log('股票数据响应:', stockResponse);
-            console.log('趋势数据响应:', trendsResponse);
+            console.log('Stock data response:', stockResponse);
+            console.log('Trends data response:', trendsResponse);
+            console.log('Similar companies response:', similarCompaniesResponse);
 
             onAnalysisRequest({
                 loading: false,
                 stockData: stockResponse.data,
                 trendsData: trendsResponse.data,
+                similarCompanies: similarCompaniesResponse.data,
                 error: null
             });
         } catch (error) {
@@ -46,6 +53,7 @@ const StockSearchForm = ({ onAnalysisRequest }) => {
                 loading: false,
                 stockData: null,
                 trendsData: null,
+                similarCompanies: null,
                 error: error.message
             });
         } finally {
