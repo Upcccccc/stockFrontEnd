@@ -19,7 +19,7 @@ const StockSearchForm = ({ onAnalysisRequest }) => {
             onAnalysisRequest({ loading: true });
 
             // parallel requests
-            const [stockResponse, trendsResponse, similarCompaniesResponse] = await Promise.all([
+            const [stockResponse, trendsResponse, similarCompaniesResponse, industryResponse] = await Promise.all([
                 stockAnalytics.getStockData(
                     formData.companyName,
                     formData.startDate,
@@ -34,18 +34,25 @@ const StockSearchForm = ({ onAnalysisRequest }) => {
                     formData.companyName,
                     formData.startDate,
                     formData.endDate
+                ),
+                stockAnalytics.getIndustryAnalysis(
+                    formData.companyName,
+                    formData.startDate,
+                    formData.endDate
                 )
             ]);
 
             console.log('Stock data response:', stockResponse);
             console.log('Trends data response:', trendsResponse);
             console.log('Similar companies response:', similarCompaniesResponse);
+            console.log('Industry analysis response:', industryResponse);
 
             onAnalysisRequest({
                 loading: false,
                 stockData: stockResponse.data,
                 trendsData: trendsResponse.data,
                 similarCompanies: similarCompaniesResponse.data,
+                industryData: industryResponse,  // Note: no .data here since the API response structure is different
                 error: null
             });
         } catch (error) {
@@ -54,6 +61,7 @@ const StockSearchForm = ({ onAnalysisRequest }) => {
                 stockData: null,
                 trendsData: null,
                 similarCompanies: null,
+                industryData: null,
                 error: error.message
             });
         } finally {

@@ -4,16 +4,17 @@ import StockSearchForm from './StockSearchForm';
 import EnhancedStockChart from './EnhancedStockChart';
 import StockAnalyticsInfo from './StockAnalyticsInfo';
 import SimilarCompanies from './SimilarCompanies';
+import IndustryAnalysis from './IndustryAnalysis';
 import './stockAnalysis.css';
 
 const StockAnalysisPanel = () => {
-    // manage the state of the analysis data
     const [analysisData, setAnalysisData] = useState({
-        stockData: null,        // stock data
-        trendsData: null,       // trends data
-        similarCompanies: null, // similar companies data
-        loading: false,         // loading state
-        error: null            //   error state
+        stockData: null,
+        trendsData: null,
+        similarCompanies: null,
+        industryData: null,
+        loading: false,
+        error: null
     });
 
     // handle the analysis request
@@ -58,6 +59,9 @@ const StockAnalysisPanel = () => {
                         />
                         <SimilarCompanies
                             similarCompanies={analysisData.similarCompanies}
+                        />
+                        <IndustryAnalysis
+                            industryData={analysisData.industryData}
                         />
                     </div>
                 )}
