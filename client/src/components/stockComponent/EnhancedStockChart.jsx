@@ -27,55 +27,41 @@ const EnhancedStockChart = ({ stockData, trendsData }) => {
     useEffect(() => {
         if (stockData) {
             const formattedData = stockData.map(item => ({
-                date: new Date(item.date).toISOString().split('T')[0], // 确保是 YYYY-MM-DD 格式
+                date: new Date(item.date).toISOString().split('T')[0], // Keeps YYYY-MM-DD format
                 close: Number(item.close),
                 volume: Number(item.volume),
                 high: Number(item.high),
                 low: Number(item.low)
             }));
+            console.log('First few formatted dates:', formattedData.slice(0, 3));
             setChartData(formattedData);
         }
     }, [stockData]);
 
+    console.log('Received trendsData:', trendsData);
+
     useEffect(() => {
-        if (trendsData?.data && Array.isArray(trendsData.data)) {
+        if (trendsData && Array.isArray(trendsData)) {  // Remove the .data check
+            console.log('Processing trends data:', trendsData);
             const highlights = {
-                increase: trendsData.data.find(trend => trend.trend_type === 'increase'),
-                decrease: trendsData.data.find(trend => trend.trend_type === 'decrease')
+                increase: trendsData.find(trend => trend.trend_type === 'increase'),
+                decrease: trendsData.find(trend => trend.trend_type === 'decrease')
             };
+            console.log('Original highlights:', highlights);
             setTrendHighlights({
-                increase: {
+                increase: highlights.increase ? {
                     ...highlights.increase,
-                    start_from: formatDate(highlights.increase?.start_from),
-                    end_at: formatDate(highlights.increase?.end_at)
-                },
-                decrease: {
+                    start_from: formatDate(highlights.increase.start_from),
+                    end_at: formatDate(highlights.increase.end_at)
+                } : null,
+                decrease: highlights.decrease ? {
                     ...highlights.decrease,
-                    start_from: formatDate(highlights.decrease?.start_from),
-                    end_at: formatDate(highlights.decrease?.end_at)
-                }
+                    start_from: formatDate(highlights.decrease.start_from),
+                    end_at: formatDate(highlights.decrease.end_at)
+                } : null
             });
         }
     }, [trendsData]);
-
-    useEffect(() => {
-        if (stockData && Array.isArray(stockData)) {
-            console.log('Processing stock data:', stockData);
-            try {
-                const formattedData = stockData.map(item => ({
-                    date: new Date(item.date).toLocaleDateString(),
-                    close: Number(item.close) || 0,
-                    volume: Number(item.volume) || 0,
-                    high: Number(item.high) || 0,
-                    low: Number(item.low) || 0
-                }));
-                console.log('格式化后的数据:', formattedData);
-                setChartData(formattedData);
-            } catch (error) {
-                console.error('数据格式化错误:', error);
-            }
-        }
-    }, [stockData]);
 
 
     const CustomTooltip = ({ active, payload, label }) => {
@@ -90,6 +76,18 @@ const EnhancedStockChart = ({ stockData, trendsData }) => {
         }
         return null;
     };
+
+    console.log('trendHighlights for rendering:', {
+        increase: {
+            start: trendHighlights.increase?.start_from,
+            end: trendHighlights.increase?.end_at
+        },
+        decrease: {
+            start: trendHighlights.decrease?.start_from,
+            end: trendHighlights.decrease?.end_at
+        }
+    });
+    console.log('Sample chart dates:', chartData.slice(0, 3).map(d => d.date));
 
     return (
         <div className="stock-chart-container">
@@ -143,14 +141,14 @@ const EnhancedStockChart = ({ stockData, trendsData }) => {
                     {trendHighlights.increase && (
                         <ReferenceArea
                             yAxisId="price"
-                            x1={formatDate(trendHighlights.increase.start_from)}
-                            x2={formatDate(trendHighlights.increase.end_at)}
+                            x1={trendHighlights.increase.start_from}
+                            x2={trendHighlights.increase.end_at}
                             fill="#4caf50"
                             fillOpacity={0.3}
                             stroke="#4caf50"
                             strokeOpacity={1}
                             label={{
-                                value: `最长上涨区间 (+${parseFloat(trendHighlights.increase.amount).toFixed(2)})`,
+                                value: `Longest Uptrend (+${parseFloat(trendHighlights.increase.amount).toFixed(2)})`,
                                 position: 'insideTop'
                             }}
                         />
@@ -159,14 +157,14 @@ const EnhancedStockChart = ({ stockData, trendsData }) => {
                     {trendHighlights.decrease && (
                         <ReferenceArea
                             yAxisId="price"
-                            x1={formatDate(trendHighlights.decrease.start_from)}
-                            x2={formatDate(trendHighlights.decrease.end_at)}
+                            x1={trendHighlights.decrease.start_from}
+                            x2={trendHighlights.decrease.end_at}
                             fill="#f44336"
                             fillOpacity={0.2}
                             stroke="#f44336"
                             strokeOpacity={0.5}
                             label={{
-                                value: `最长下跌区间 (${parseFloat(trendHighlights.decrease.amount).toFixed(2)})`,
+                                value: `Longest Downtrend (${parseFloat(trendHighlights.decrease.amount).toFixed(2)})`,
                                 position: 'insideBottom'
                             }}
                         />
