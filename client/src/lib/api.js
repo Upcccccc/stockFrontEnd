@@ -70,6 +70,18 @@ export const stockAnalytics = {
         const res = await fetch(`${import.meta.env.VITE_API_URL}/api/stocks-similar-companies?${params.toString()}`);
         if (!res.ok) throw new Error('Failed to fetch similar companies data');
         return res.json();
+    },
+
+    getIndustryAnalysis: async (companyName, startDate, endDate) => {
+        const params = new URLSearchParams({
+            company_name: companyName,
+            start_date: startDate,
+            end_date: endDate
+        });
+
+        const res = await fetch(`${import.meta.env.VITE_API_URL}/api/stocks-industry?${params.toString()}`);
+        if (!res.ok) throw new Error('Failed to fetch industry analysis data');
+        return res.json();
     }
 };
 

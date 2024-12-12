@@ -234,3 +234,99 @@
     font-size: 12px;
     color: var(--text-color-secondary);
 }
+
+/* Industry Analysis Styles */
+.industry-analysis {
+    margin-top: 24px;
+}
+
+.industry-title {
+    font-size: 24px;
+    color: var(--text-color-primary);
+    margin-bottom: 20px;
+}
+
+.period-subtitle {
+    font-size: 14px;
+    color: var(--text-color-secondary);
+    margin-left: 12px;
+}
+
+.industry-cards-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+}
+
+.industry-card {
+    background-color: var(--bg-color-secondary);
+    border-radius: 12px;
+    padding: 24px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.industry-card h4 {
+    font-size: 18px;
+    color: var(--text-color-primary);
+    margin-bottom: 20px;
+}
+
+/* Metrics Card Styles */
+.metrics-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+}
+
+.metric-item {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.metric-label {
+    font-size: 12px;
+    color: var(--text-color-secondary);
+}
+
+.metric-value {
+    font-size: 16px;
+    color: var(--text-color-primary);
+    font-weight: 500;
+}
+
+/* Distribution Card Styles */
+.distribution-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.distribution-item {
+    position: relative;
+    padding: 8px 0;
+}
+
+.distribution-bar {
+    position: absolute;
+    height: 100%;
+    background-color: rgba(var(--primary-color-rgb), 0.2);
+    border-radius: 4px;
+    z-index: 1;
+}
+
+.distribution-label {
+    position: relative;
+    z-index: 2;
+    color: var(--text-color-primary);
+    font-size: 14px;
+}
+
+.distribution-value {
+    position: relative;
+    z-index: 2;
+    float: right;
+    color: var(--text-color-secondary);
+    font-size: 14px;
+}
+
