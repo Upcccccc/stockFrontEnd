@@ -129,7 +129,7 @@
 // export default NewPrompt;
 
 // client/src/components/newPrompt/NewPrompt.jsx
-import { useState, useRef } from "react";
+import {useState, useRef, useEffect} from "react";
 import "./newPrompt.css";
 import { updateChat } from "../../lib/api";
 import ThinkingLoader from "../thinkingLoader/ThinkingLoader";
@@ -170,6 +170,7 @@ const NewPrompt = ({ chatId, onNewMessage }) => {
   const formRef = useRef(null);
   const [loading, setLoading] = useState(false);
   const [currentQuestion, setCurrentQuestion] = useState("");
+  const inputRef = useRef(null);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -183,12 +184,19 @@ const NewPrompt = ({ chatId, onNewMessage }) => {
     try {
       await updateChat(chatId, text);
       await onNewMessage();
-      setCurrentQuestion("");
     } catch (err) {
       console.error(err);
     }
+
     setLoading(false);
+    setCurrentQuestion("");
   };
+
+  useEffect(() => {
+    if (inputRef.current) {
+      inputRef.current.autocomplete = "off";
+    }
+  }, []);
 
   return (
       <>
@@ -203,7 +211,10 @@ const NewPrompt = ({ chatId, onNewMessage }) => {
             </div>
         )}
         <form className="newForm" onSubmit={handleSubmit} ref={formRef}>
-          <input type="text" name="text" placeholder="Ask about stocks..." />
+          <input type="text"
+                 name="text"
+                 placeholder="Ask about stocks..."
+                 autoComplete="off"  />
           <button>
             <img src="/arrow.png" alt="" />
           </button>

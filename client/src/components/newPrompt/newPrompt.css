@@ -31,6 +31,17 @@
       align-items: center;
       justify-content: center;
       cursor: pointer;
+      transition: all 0.3s ease;
+
+      &:hover {
+        background-color: #7a7885;
+        transform: scale(1.1);
+      }
+
+      &:active {
+        transform: scale(0.95);
+        background-color: #4a4854;
+      }
 
       img{
         width: 16px;

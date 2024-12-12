@@ -1,53 +1,3 @@
-// // client/src/routes/chatPage/ChatPage.jsx
-// import "./chatPage.css";
-// import NewPrompt from "../../components/newPrompt/NewPrompt";
-// import {    useQuery } from "@tanstack/react-query";
-// import { useParams } from "react-router-dom";
-// import { getChat } from "../../lib/api";
-// import { useRef, useEffect } from "react";
-// import Markdown from "react-markdown";
-//
-// const ChatPage = () => {
-//     const { id } = useParams();
-//     const endRef = useRef(null);
-//
-//     const { data, isLoading, isError, refetch } = useQuery({
-//         queryKey: ["chat", id],
-//         queryFn: () => getChat(id),
-//         refetchOnWindowFocus: false
-//     });
-//
-//     useEffect(() => {
-//         if (endRef.current) {
-//             endRef.current.scrollIntoView({ behavior: "smooth" });
-//         }
-//     }, [data]);
-//
-//     return (
-//         <div className="chatPage">
-//             <div className="wrapper">
-//                 <div className="chat">
-//                     {isLoading && <div>Loading...</div>}
-//                     {isError && <div>Something went wrong!</div>}
-//                     {data?.history?.map((message, i) => (
-//                         <div
-//                             className={message.role === "user" ? "message user" : "message"}
-//                             key={i}
-//                         >
-//                             <Markdown>{message.parts[0].text}</Markdown>
-//                         </div>
-//                     ))}
-//                     <div className="endChat" ref={endRef}></div>
-//                     <NewPrompt chatId={id} onNewMessage={refetch} />
-//                 </div>
-//             </div>
-//         </div>
-//     );
-// };
-//
-// export default ChatPage;
-
-// client/src/routes/chatPage/ChatPage.jsx
 import "./chatPage.css";
 import NewPrompt from "../../components/newPrompt/NewPrompt";
 import { useQuery } from "@tanstack/react-query";
@@ -59,7 +9,7 @@ import Markdown from "react-markdown";
 const ChatPage = () => {
     const { id } = useParams();
     const endRef = useRef(null);
-    // 添加临时消息状态
+    // add tempMessage state
     const [tempMessage, setTempMessage] = useState(null);
 
     const { data, isLoading, isError, refetch } = useQuery({
@@ -68,13 +18,19 @@ const ChatPage = () => {
         refetchOnWindowFocus: false
     });
 
-    useEffect(() => {
+    const scrollToBottom = () => {
         if (endRef.current) {
-            endRef.current.scrollIntoView({ behavior: "smooth" });
+            setTimeout(() => {
+                endRef.current.scrollIntoView({ behavior: "smooth" });
+            }, 100);
         }
-    }, [data, tempMessage]); // 添加 tempMessage 依赖
+    };
 
-    // 合并历史消息和临时消息
+    useEffect(() => {
+        scrollToBottom();
+    }, [data, tempMessage]);
+
+    // combine history and tempMessage
     const allMessages = [
         ...(data?.history || []),
         ...(tempMessage ? [tempMessage] : [])
