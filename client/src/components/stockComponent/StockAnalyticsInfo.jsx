@@ -92,35 +92,35 @@ const StockAnalyticsInfo = ({ stockData, trendsData }) => {
 
             <div className="analytics-grid">
                 <div className="info-card">
-                    <h4>价格区间</h4>
+                    <h4>Price Range</h4>
                     <div className="price-range">
                         <span className="max-price">
-                            最高: ${analytics.maxPrice.toFixed(2)}
+                            High: ${analytics.maxPrice.toFixed(2)}
                         </span>
                         <span className="min-price">
-                            最低: ${analytics.minPrice.toFixed(2)}
+                            Low: ${analytics.minPrice.toFixed(2)}
                         </span>
                     </div>
                     <p className="avg-price">
-                        平均: ${analytics.avgPrice.toFixed(2)}
+                        Average: ${analytics.avgPrice.toFixed(2)}
                     </p>
                 </div>
 
                 <div className="info-card">
-                    <h4>波动性指标</h4>
+                    <h4>Volatility Indicators</h4>
                     <p className="volatility">
-                        标准差: ${analytics?.volatility?.toFixed(2) || 'N/A'}
+                        Standard Deviation: ${analytics?.volatility?.toFixed(2) || 'N/A'}
                     </p>
                     <p className="trading-days">
-                        交易天数: {analytics?.totalDays || 'N/A'}天
+                        Trading Days: {analytics?.totalDays || 'N/A'} days
                     </p>
                 </div>
 
                 <div className="info-card trends">
-                    <h4>趋势分析</h4>
+                    <h4>Trend Analysis</h4>
                     {trendsSummary.increase && (
                         <div className="trend-item increase">
-                            <span className="trend-label">最长上涨区间</span>
+                            <span className="trend-label">Longest Upward Trend</span>
                             <span className="trend-value">
                                 +${trendsSummary.increase.amount.toFixed(2)}
                             </span>
@@ -132,7 +132,7 @@ const StockAnalyticsInfo = ({ stockData, trendsData }) => {
                     )}
                     {trendsSummary.decrease && (
                         <div className="trend-item decrease">
-                            <span className="trend-label">最长下跌区间</span>
+                            <span className="trend-label">Longest Downward Trend</span>
                             <span className="trend-value">
                                 -${Math.abs(trendsSummary.decrease.amount).toFixed(2)}
                             </span>
