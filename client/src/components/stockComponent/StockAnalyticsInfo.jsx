@@ -2,20 +2,41 @@
 import { useMemo } from 'react';
 
 const StockAnalyticsInfo = ({ stockData, trendsData }) => {
+    console.log('StockAnalyticsInfo received:', { stockData, trendsData });
+
     const analytics = useMemo(() => {
         if (!stockData || stockData.length === 0) return null;
 
+        // Add debug logs
+        console.log('Starting analytics calculation...');
+
         // 确保所有数值计算都使用parseFloat转换字符串
         const prices = stockData.map(item => parseFloat(item.close));
+        console.log('Processed prices:', prices);
+
         const maxPrice = Math.max(...prices);
         const minPrice = Math.min(...prices);
         const avgPrice = prices.reduce((a, b) => a + b, 0) / prices.length;
 
-        const volatility = Math.sqrt(
-            prices.reduce((sum, price) => {
-                return sum + Math.pow(price - avgPrice, 2);
-            }, 0) / prices.length
-        );
+        console.log('Basic calculations:', {
+            maxPrice,
+            minPrice,
+            avgPrice,
+            totalDays: prices.length
+        });
+
+        // Debug the volatility calculation step by step
+        let sumSquaredDiff = prices.reduce((sum, price) => {
+            const diff = price - avgPrice;
+            const squaredDiff = Math.pow(diff, 2);
+            // console.log(`Price: ${price}, Diff: ${diff}, Squared: ${squaredDiff}`);
+            return sum + squaredDiff;
+        }, 0);
+
+        console.log('Sum of squared differences:', sumSquaredDiff);
+
+        const volatility = Math.sqrt(sumSquaredDiff / prices.length);
+        console.log('Calculated volatility:', volatility);
 
         return {
             maxPrice,
@@ -31,14 +52,16 @@ const StockAnalyticsInfo = ({ stockData, trendsData }) => {
     }, [stockData]);
 
     const trendsSummary = useMemo(() => {
-        // 确保trendsData存在且有data属性
-        if (!trendsData?.data || !Array.isArray(trendsData.data)) {
+        console.log('Calculating trendsSummary with trendsData:', trendsData);
+        // Changed validation to check if trendsData is an array
+        if (!Array.isArray(trendsData)) {
+            console.log('Returning null because trendsData is invalid');
             return null;
         }
 
-        // 处理上涨和下跌趋势数据
-        const increaseTrend = trendsData.data.find(trend => trend.trend_type === 'increase');
-        const decreaseTrend = trendsData.data.find(trend => trend.trend_type === 'decrease');
+        // Process the array directly since trendsData is the array
+        const increaseTrend = trendsData.find(trend => trend.trend_type === 'increase');
+        const decreaseTrend = trendsData.find(trend => trend.trend_type === 'decrease');
 
         return {
             increase: increaseTrend ? {
@@ -57,6 +80,11 @@ const StockAnalyticsInfo = ({ stockData, trendsData }) => {
     if (!analytics || !trendsSummary) return null;
 
     const formatDate = (date) => date.toLocaleDateString();
+
+    console.log('Final analytics values:', {
+        volatility: analytics?.volatility,
+        totalDays: analytics?.totalDays
+    });
 
     return (
         <div className="stock-analytics-info">
@@ -81,10 +109,10 @@ const StockAnalyticsInfo = ({ stockData, trendsData }) => {
                 <div className="info-card">
                     <h4>波动性指标</h4>
                     <p className="volatility">
-                        标准差: ${analytics.volatility.toFixed(2)}
+                        标准差: ${analytics?.volatility?.toFixed(2) || 'N/A'}
                     </p>
                     <p className="trading-days">
-                        交易天数: {analytics.totalDays}天
+                        交易天数: {analytics?.totalDays || 'N/A'}天
                     </p>
                 </div>
 

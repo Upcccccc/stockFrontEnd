@@ -5,8 +5,8 @@
     --primary-color: #1a73e8;
     --primary-color-dark: #1557b0;
     --primary-color-light: #4285f4;
-    --text-color-primary: #202124;
-    --text-color-secondary: #5f6368;
+    --text-color-primary: #ffffff;  /* Change this to white */
+    --text-color-secondary: #dadce0;  /* Change this to light grey */
     --border-color: #dadce0;
     --error-color: #d93025;
     --error-color-rgb: 217, 48, 37;
@@ -168,15 +168,16 @@
 
 .info-card {
     padding: 16px;
-    background-color: var(--bg-color-secondary);
+    background-color: rgba(255, 255, 255, 0.05);
     border-radius: 8px;
-    border: 1px solid var(--border-color);
+    border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .info-card h4 {
     font-size: 16px;
     color: var(--text-color-secondary);
     margin-bottom: 12px;
+    font-weight: 500;
 }
 
 .price-range {
@@ -193,6 +194,13 @@
 .min-price {
     color: #f44336;
     font-weight: 500;
+}
+
+.volatility, .trading-days {
+    color: var(--text-color-primary);
+    font-size: 14px;
+    margin: 8px 0;
+    display: block;
 }
 
 .trend-item {
