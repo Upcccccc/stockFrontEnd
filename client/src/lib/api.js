@@ -11,7 +11,7 @@ export const createChat = async (text) => {
 
 export const getUserChats = async () => {
     const res = await fetch(`${import.meta.env.VITE_API_URL}/api/userchats`);
-    if (!res.ok) throw new Error('Error fetching userchats');
+    if (!res.ok) throw new Error('Error fetching chat');
     return res.json();
 };
 
@@ -19,6 +19,14 @@ export const getChat = async (id) => {
     const res = await fetch(`${import.meta.env.VITE_API_URL}/api/chats/${id}`);
     if (!res.ok) throw new Error('Error fetching chat');
     return res.json();
+};
+
+export const deleteChat = async (id) => {
+    const res = await fetch(`${import.meta.env.VITE_API_URL}/api/chats/${id}`, {
+        method: 'DELETE'
+    });
+    if (!res.ok) throw new Error('Error deleting chat');
+    return res.text();
 };
 
 export const updateChat = async (id, question, img) => {

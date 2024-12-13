@@ -16,7 +16,6 @@
 }
 
 .newsContent {
-    /*flex: 1;*/
     display: grid;
     grid-template-columns: repeat(12, 1fr);
     gap: 20px;
@@ -160,6 +159,33 @@
     border-bottom: 1px solid #383838;
 }
 
+/* Loading container styles from remote branch */
+.news-loading-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(26, 26, 26, 0.9);
+    z-index: 1000;
+}
+
+.news-loading-container .thinking-loader {
+    background-color: #2d2d2d;
+    border-radius: 8px;
+    padding: 20px 40px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.news-loading-container .thinking-loader span {
+    font-size: 16px;
+    color: #ececec;
+}
+
+/* Similar news button and page styles */
 .similarNewsButton {
     position: absolute;
     right: 10px;
@@ -178,8 +204,7 @@
     opacity: 1;
 }
 
-/* similarNewsPage.css */
-/* similarNewsPage.css */
+/* Similar News Page styles */
 .similarNewsPage {
     padding: 20px;
     color: white;
@@ -203,13 +228,13 @@
     color: white;
 }
 
-.newsContent {
+.similarNewsPage .newsContent {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 20px;
 }
 
-.newsCard {
+.similarNewsPage .newsCard {
     background: rgba(255, 255, 255, 0.1);
     border-radius: 8px;
     overflow: hidden;
@@ -217,40 +242,16 @@
     transition: transform 0.2s;
 }
 
-.newsCard:hover {
+.similarNewsPage .newsCard:hover {
     transform: translateY(-2px);
     background: rgba(255, 255, 255, 0.15);
 }
 
-.newsCard-content {
+.similarNewsPage .newsCard-content {
     padding: 20px;
 }
 
-.newsCard-meta {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 10px;
-}
-
-.newsCard-category {
-    color: #64B5F6;
-    font-size: 0.8em;
-    text-transform: uppercase;
-}
-
-.newsCard-date {
-    color: rgba(255, 255, 255, 0.6);
-    font-size: 0.8em;
-}
-
-.newsCard-headline {
-    color: white;
-    margin: 0 0 10px 0;
-    font-size: 1.1em;
-    line-height: 1.4;
-}
-
-.newsCard-description {
+.similarNewsPage .newsCard-description {
     color: rgba(255, 255, 255, 0.8);
     font-size: 0.9em;
     line-height: 1.5;
@@ -262,7 +263,7 @@
 }
 
 @media (max-width: 768px) {
-    .newsContent {
+    .similarNewsPage .newsContent {
         grid-template-columns: 1fr;
     }
 }

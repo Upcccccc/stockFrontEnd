@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 
 import "./newsSection.css";
 import NewsCard from "./NewsCard.jsx";
+import ThinkingLoader from "../ThinkingLoader/ThinkingLoader.jsx";
 
 const NewsSection = () => {
     const navigate = useNavigate();
@@ -28,14 +29,17 @@ const NewsSection = () => {
         setSearchQuery(searchTerm);
     };
 
-    if (isLoading) return <div className="loading">Loading...</div>;
+    if (isLoading) return (
+        <div className="news-loading-container">
+            <ThinkingLoader />
+        </div>
+    );
     if (error) return <div className="error">Error loading news</div>;
 
-    // In NewsSection.jsx
     const handleSimilarNewsClick = (headline) => {
-        console.log("NewsSection: Navigating to similar news for:", headline); // Debug log
+        console.log("NewsSection: Navigating to similar news for:", headline);
         const encodedHeadline = encodeURIComponent(headline);
-        console.log("Encoded headline:", encodedHeadline); // Debug log
+        console.log("Encoded headline:", encodedHeadline);
         navigate(`/dashboard/news/similar/${encodedHeadline}`);
     };
 
@@ -64,7 +68,7 @@ const NewsSection = () => {
                         news={news}
                         hasImage={!!news.imageUrl && index < 4}
                         onSimilarNewsClick={(headline) => {
-                            console.log("Click handler in NewsSection"); // Debug log
+                            console.log("Click handler in NewsSection");
                             handleSimilarNewsClick(headline);
                         }}
                     />

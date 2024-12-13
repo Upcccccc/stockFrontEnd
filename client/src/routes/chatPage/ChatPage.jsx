@@ -1,13 +1,14 @@
 import "./chatPage.css";
 import NewPrompt from "../../components/newPrompt/NewPrompt";
 import { useQuery } from "@tanstack/react-query";
-import { useParams } from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 import { getChat } from "../../lib/api";
 import { useRef, useEffect, useState } from "react";  // 添加 useState
 import Markdown from "react-markdown";
 
 const ChatPage = () => {
     const { id } = useParams();
+    const navigate = useNavigate();
     const endRef = useRef(null);
     // add tempMessage state
     const [tempMessage, setTempMessage] = useState(null);
@@ -17,6 +18,13 @@ const ChatPage = () => {
         queryFn: () => getChat(id),
         refetchOnWindowFocus: false
     });
+
+    useEffect(() => {
+        if (isError || (!isLoading && !data)) {
+            // if there is an error, navigate back to dashboard
+            navigate('/dashboard');
+        }
+    }, [isError, data, isLoading, navigate]);
 
     const scrollToBottom = () => {
         if (endRef.current) {
