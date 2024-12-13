@@ -28,6 +28,8 @@ const NewsSection = () => {
     if (isLoading) return <div className="loading">Loading...</div>;
     if (error) return <div className="error">Error loading news</div>;
 
+    console.log('newsData:', newsData);
+
     return (
         <div className="newsSectionContainer">
             <div className="searchContainer">

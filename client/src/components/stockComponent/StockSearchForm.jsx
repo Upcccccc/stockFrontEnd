@@ -16,10 +16,16 @@ const StockSearchForm = ({ onAnalysisRequest, onDataReceived }) => {
         e.preventDefault();
         setIsSubmitting(true);
 
-        // Notify parent component about loading states
-        onAnalysisRequest(['stockData', 'trendsData', 'similarCompanies', 'industryData']);
+        // Update loading states to include news
+        onAnalysisRequest(['stockData', 'trendsData', 'similarCompanies', 'industryData', 'newsData']);
 
         try {
+            // Add news fetch along with other requests
+            fetch(`http://localhost:3000/api/news-events?company_name=${encodeURIComponent(formData.companyName)}`)
+                .then(response => response.json())
+                .then(response => onDataReceived('newsData', response.data))
+                .catch(error => onDataReceived('newsData', null, error.message));
+
             // Make requests individually and update as they complete
             stockAnalytics.getStockData(formData.companyName, formData.startDate, formData.endDate)
                 .then(response => onDataReceived('stockData', response.data))
