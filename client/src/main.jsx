@@ -11,6 +11,7 @@ import SignInPage from "./routes/signInPage/signInPage";
 import SignUpPage from "./routes/signUpPage/signUpPage";
 import StockAnalysisPage from "./routes/stockAnalysisPage/StockAnalysisPage.jsx";
 import NewsPage from "./routes/newsPage/NewsPage.jsx";
+import SimilarNews from "./routes/newsPage/SimilarNewsPage.jsx";
 
 const router = createBrowserRouter([
   {
@@ -46,6 +47,10 @@ const router = createBrowserRouter([
           {
             path: "/dashboard/news",
             element: <NewsPage />,
+          },
+          {
+            path: "/dashboard/news/similar/:headline",
+            element: <SimilarNews />,
           }
         ],
       },

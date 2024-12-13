@@ -1,10 +1,13 @@
 import React, { useState } from 'react';
 import { useQuery } from "@tanstack/react-query";
+import { useNavigate } from 'react-router-dom';
+
 import "./newsSection.css";
 import NewsCard from "./NewsCard.jsx";
-import { debounce } from 'lodash';
 
 const NewsSection = () => {
+    const navigate = useNavigate();
+
     const [searchTerm, setSearchTerm] = useState('');
     const [searchQuery, setSearchQuery] = useState('');
 
@@ -27,6 +30,14 @@ const NewsSection = () => {
 
     if (isLoading) return <div className="loading">Loading...</div>;
     if (error) return <div className="error">Error loading news</div>;
+
+    // In NewsSection.jsx
+    const handleSimilarNewsClick = (headline) => {
+        console.log("NewsSection: Navigating to similar news for:", headline); // Debug log
+        const encodedHeadline = encodeURIComponent(headline);
+        console.log("Encoded headline:", encodedHeadline); // Debug log
+        navigate(`/dashboard/news/similar/${encodedHeadline}`);
+    };
 
     console.log('newsData:', newsData);
 
@@ -52,6 +63,10 @@ const NewsSection = () => {
                         key={news.id}
                         news={news}
                         hasImage={!!news.imageUrl && index < 4}
+                        onSimilarNewsClick={(headline) => {
+                            console.log("Click handler in NewsSection"); // Debug log
+                            handleSimilarNewsClick(headline);
+                        }}
                     />
                 ))}
             </div>
