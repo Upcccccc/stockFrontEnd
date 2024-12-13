@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useQuery } from "@tanstack/react-query";
 import "./newsSection.css";
 import NewsCard from "./NewsCard.jsx";
-import { debounce } from 'lodash';
+import ThinkingLoader from "../ThinkingLoader/ThinkingLoader.jsx";
 
 const NewsSection = () => {
     const [searchTerm, setSearchTerm] = useState('');
@@ -25,7 +25,11 @@ const NewsSection = () => {
         setSearchQuery(searchTerm);
     };
 
-    if (isLoading) return <div className="loading">Loading...</div>;
+    if (isLoading) return (
+        <div className="news-loading-container">
+            <ThinkingLoader />
+        </div>
+    );
     if (error) return <div className="error">Error loading news</div>;
 
     return (

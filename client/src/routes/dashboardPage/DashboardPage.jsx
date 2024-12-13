@@ -4,9 +4,11 @@ import { useNavigate } from "react-router-dom";
 import { createChat } from "../../lib/api";
 import {useState} from "react";
 import ThinkingLoader from "../../components/ThinkingLoader/ThinkingLoader.jsx";
+import {useQueryClient} from "@tanstack/react-query";
 
 const DashboardPage = () => {
     const navigate = useNavigate();
+    const queryClient = useQueryClient();
     const [isLoading, setIsLoading] = useState(false);
     const [currentQuestion, setCurrentQuestion] = useState("");
 
@@ -15,12 +17,13 @@ const DashboardPage = () => {
         const text = e.target.text.value;
         if (!text) return;
 
-        setCurrentQuestion(text);  // 保存当前问题
-        setIsLoading(true);       // 显示加载状态
+        setCurrentQuestion(text);
+        setIsLoading(true);
         e.target.reset();
 
         try {
             const chatId = await createChat(text);
+            await queryClient.invalidateQueries(['userChats']);
             navigate(`/dashboard/chats/${chatId}`);
         } catch (err) {
             console.error(err);

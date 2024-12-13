@@ -159,3 +159,28 @@
     padding: 10px 20px;
     border-bottom: 1px solid #383838;
 }
+
+.news-loading-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(26, 26, 26, 0.9);
+    z-index: 1000;
+}
+
+.news-loading-container .thinking-loader {
+    background-color: #2d2d2d;
+    border-radius: 8px;
+    padding: 20px 40px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.news-loading-container .thinking-loader span {
+    font-size: 16px;
+    color: #ececec;
+}

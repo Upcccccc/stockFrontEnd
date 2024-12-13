@@ -26,6 +26,8 @@
 
       .message{
         padding: 20px;
+        white-space: pre-wrap;
+        word-wrap: break-word;
 
         &.user{
           background-color: #2c2937;
