@@ -7,7 +7,7 @@ const NewsCard = ({ news, hasImage }) => {
     };
 
     return (
-        <div className={`newsCard ${hasImage ? 'withImage' : 'withoutImage'}`}
+        <div className={`newsCard ${hasImage ? 'withImage featured' : 'withoutImage'}`}
              onClick={() => handleNewsClick(news.link)}>
             {hasImage && (
                 <div className="newsCard-imageContainer">

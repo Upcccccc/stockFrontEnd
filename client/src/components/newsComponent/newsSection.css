@@ -1,10 +1,8 @@
 .newsSectionContainer {
-    height: 100%;
-    min-height: 100vh;
+    min-height: 100%;
     background-color: #1a1a1a;
     display: flex;
     flex-direction: column;
-    overflow-y: auto;
 }
 
 .searchInput {
@@ -18,9 +16,9 @@
 }
 
 .newsContent {
-    flex: 1;
+    /*flex: 1;*/
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    grid-template-columns: repeat(12, 1fr);
     gap: 20px;
     padding: 20px;
     max-width: 1400px;
@@ -93,6 +91,41 @@
 
 .newsCard:hover .newsCard-headline {
     color: #60A5FA;
+}
+
+.newsCard.featured {
+    grid-column: span 6;
+    display: flex;
+    flex-direction: column;
+}
+
+@media (max-width: 1200px) {
+    .newsCard.featured {
+        grid-column: span 12;
+    }
+    .newsCard.withoutImage {
+        grid-column: span 6;
+    }
+}
+
+@media (max-width: 768px) {
+    .newsCard.withoutImage {
+        grid-column: span 12;
+    }
+}
+
+.newsCard.featured .newsCard-headline {
+    font-size: 20px;
+    margin-top: 12px;
+    font-weight: bold;
+}
+
+.newsCard.withoutImage {
+    grid-column: span 3;
+}
+
+.newsCard.featured .newsCard-imageContainer {
+    height: 300px;
 }
 
 .searchForm {

@@ -30,46 +30,45 @@ const Homepage = () => {
                     {/*</div>*/}
                     {/* 替换机器人图片为SpacemanCanvas */}
                     <div className="spaceman-container">
-                        <SpacemanCanvas scrollContainer={scrollContainer} />
+                        <SpacemanCanvas scrollContainer={scrollContainer}/>
                     </div>
                     <div className="chat">
                         <img
                             src={
-                                typingStatus === "human1"
+                                typingStatus === "Yuchen"
                                     ? "/human1.jpeg"
-                                    : typingStatus === "human2"
+                                    : typingStatus === "Muyu"
                                         ? "/human2.jpeg"
-                                        : "bot.png"
+                                        : typingStatus === "Nathan"
+                                            ? "/human1.jpeg"
+                                            : typingStatus === "Nikunj"
+                                                ? "/human2.jpeg"
+                                                : "bot.png"
                             }
                             alt=""
                         />
                         <TypeAnimation
                             sequence={[
-                                "Human:We produce food for Mice",
-                                2000,
-                                () => {
-                                    setTypingStatus("bot");
-                                },
-                                "Yuchen:lalalalalalallala",
-                                2000,
+                                "Yuchen: Excited to build this AI-powered stock analysis platform!",
+                                2500,
                                 () => {
                                     setTypingStatus("Yuchen");
                                 },
-                                "Muyu:Hell yea!!!!",
-                                2000,
+                                "Muyu: Leveraging RAG to make stock analysis smarter than ever!",
+                                2500,
                                 () => {
                                     setTypingStatus("Muyu");
                                 },
-                                "Nathan:emmmmmmmmmmmmmmmmmm",
-                                2000,
+                                "Nathan: Real-time insights at your fingertips!",
+                                2500,
                                 () => {
                                     setTypingStatus("Nathan");
                                 },
-                                "Nikunj:damnnnnnnnn",
-                                2000,
+                                "Nikunj: Making investment decisions simpler with AI!",
+                                2500,
                                 () => {
-                                setTypingStatus("Nikunj");
-                            },
+                                    setTypingStatus("Nikunj");
+                                },
                             ]}
                             wrapper="span"
                             repeat={Infinity}
@@ -80,7 +79,7 @@ const Homepage = () => {
                 </div>
             </div>
             <div className="terms">
-                <img src="/logo.png" alt="" />
+                <img src="/logo.png" alt=""/>
                 <div className="links">
                     <Link to="/">Terms of Service</Link>
                     <span>|</span>
