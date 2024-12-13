@@ -5,6 +5,7 @@ import EnhancedStockChart from './EnhancedStockChart';
 import StockAnalyticsInfo from './StockAnalyticsInfo';
 import SimilarCompanies from './SimilarCompanies';
 import IndustryAnalysis from './IndustryAnalysis';
+import NewsCard from '../newsComponent/NewsCard';
 import './stockAnalysis.css';
 
 const StockAnalysisPanel = () => {
@@ -13,17 +14,20 @@ const StockAnalysisPanel = () => {
         trendsData: null,
         similarCompanies: null,
         industryData: null,
+        newsData: null,
         loading: {
             stockData: false,
             trendsData: false,
             similarCompanies: false,
-            industryData: false
+            industryData: false,
+            newsData: false
         },
         error: {
             stockData: null,
             trendsData: null,
             similarCompanies: null,
-            industryData: null
+            industryData: null,
+            newsData: null
         }
     });
 
@@ -161,6 +165,59 @@ const StockAnalysisPanel = () => {
                         <IndustryAnalysis
                             industryData={analysisData.industryData}
                         />
+                    )}
+                </div>
+
+                {/* Company News Section */}
+                <div className="analysis-section">
+                    {analysisData.loading.newsData ? (
+                        <div className="loading-container" style={{
+                            display: 'flex',
+                            flexDirection: 'column',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            padding: '2rem',
+                            minHeight: '200px'
+                        }}>
+                            <div className="loading-spinner"></div>
+                            <div style={{
+                                marginTop: '1rem',
+                                fontSize: '1.1rem',
+                                color: '#666',
+                                fontWeight: '500'
+                            }}>
+                                Loading company news...
+                            </div>
+                        </div>
+                    ) : analysisData.error.newsData ? (
+                        <div className="error-state">
+                            <p>Error loading news: {analysisData.error.newsData}</p>
+                        </div>
+                    ) : analysisData.newsData && (
+                        <div className="news-container">
+                            <h3>Latest Company News</h3>
+                            <div className="news-grid" style={{
+                                display: 'flex',
+                                flexDirection: 'row',
+                                gap: '1rem',
+                                padding: '1rem',
+                                overflowX: 'auto'
+                            }}>
+                                {analysisData.newsData
+                                    .sort((a, b) => new Date(b.publishedAt) - new Date(a.publishedAt)) // Sort by date
+                                    .slice(0, 4) // Take only top 4
+                                    .map((news, index) => (
+                                        <div style={{ flex: '1', minWidth: '300px', maxWidth: '400px' }}>
+                                            <NewsCard
+                                                key={news.id}
+                                                news={news}
+                                                hasImage={!!news.imageUrl}
+                                            />
+                                        </div>
+                                    ))
+                                }
+                            </div>
+                        </div>
                     )}
                 </div>
 
