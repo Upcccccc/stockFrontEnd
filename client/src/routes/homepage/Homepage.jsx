@@ -36,39 +36,39 @@ const Homepage = () => {
                         <img
                             src={
                                 typingStatus === "Yuchen"
-                                    ? "/human1.jpeg"
+                                    ? "/human3.jpeg"
                                     : typingStatus === "Muyu"
-                                        ? "/human2.jpeg"
+                                        ? "/human5.jpeg"
                                         : typingStatus === "Nathan"
                                             ? "/human1.jpeg"
                                             : typingStatus === "Nikunj"
-                                                ? "/human2.jpeg"
+                                                ? "/human4.jpeg"
                                                 : "bot.png"
                             }
                             alt=""
                         />
                         <TypeAnimation
                             sequence={[
-                                "Yuchen: Excited to build this AI-powered stock analysis platform!",
-                                2500,
                                 () => {
                                     setTypingStatus("Yuchen");
                                 },
-                                "Muyu: Leveraging RAG to make stock analysis smarter than ever!",
+                                "Yuchen: Excited to build this AI-powered stock analysis platform!",
                                 2500,
                                 () => {
                                     setTypingStatus("Muyu");
                                 },
-                                "Nathan: Real-time insights at your fingertips!",
+                                "Muyu: Leveraging RAG to make stock analysis smarter than ever!",
                                 2500,
                                 () => {
                                     setTypingStatus("Nathan");
                                 },
-                                "Nikunj: Making investment decisions simpler with AI!",
+                                "Nathan: Real-time insights at your fingertips!",
                                 2500,
                                 () => {
                                     setTypingStatus("Nikunj");
                                 },
+                                "Nikunj: Making investment decisions simpler with AI!",
+                                2500,
                             ]}
                             wrapper="span"
                             repeat={Infinity}
